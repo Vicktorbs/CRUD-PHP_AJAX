@@ -7,8 +7,8 @@
         'task-app'
     );
 
-    if ($connection) {
-        echo "Database is connected";
-    }
+    // if ($connection) {
+    //     echo "Database is connected";
+    // }
 
 ?>
