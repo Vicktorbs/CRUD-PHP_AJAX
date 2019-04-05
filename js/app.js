@@ -1,6 +1,7 @@
 $(function () {
     console.log('Funciona');
     $('#task-result').hide();
+    // buscar
     $('#search').keyup(function (e) {
         let search = $('#search').val();
         // console.log(search);
@@ -27,5 +28,18 @@ $(function () {
                 } 
             })
         }
+    })
+
+    // Agregar
+    $('#task-form').submit(function (e) {
+        const psotData = {
+            name: $('#name').val(),
+            description: $('#description').val()
+        }
+        $.post('task-add.php', psotData, function (response) {
+            console.log(response);
+            $('#task-form').trigger('reset')
+        })
+        e.preventDefault();
     })
 })
