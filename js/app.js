@@ -1,6 +1,7 @@
 $(function () {
     console.log('Funciona');
     $('#task-result').hide();
+    fetchTask()
     // buscar
     $('#search').keyup(function (e) {
         let search = $('#search').val();
@@ -38,8 +39,39 @@ $(function () {
         }
         $.post('task-add.php', psotData, function (response) {
             console.log(response);
+            fetchTask()
             $('#task-form').trigger('reset')
         })
         e.preventDefault();
     })
+
+    // Pintar datos en la interfaz
+    function fetchTask() {
+        $.ajax({
+            url: 'task-list.php',
+            type: 'GET',
+            success: function (response) {
+                console.log(response);
+                let tasks = JSON.parse(response)
+                console.log(tasks);
+                
+                let template = ''
+                tasks.forEach(task => {
+                    template += `
+                    <tr>
+                        <td>${task.id}</td>
+                        <td>${task.name}</td>
+                        <td>${task.description}</td>
+                        <td>
+                            <button class="btn btn-danger">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                `
+                })
+                $('#tasks').html(template)
+            }
+        })
+    }
 })
