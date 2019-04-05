@@ -58,12 +58,12 @@ $(function () {
                 let template = ''
                 tasks.forEach(task => {
                     template += `
-                    <tr>
+                    <tr taskId="${task.id}">
                         <td>${task.id}</td>
                         <td>${task.name}</td>
                         <td>${task.description}</td>
                         <td>
-                            <button class="btn btn-danger">
+                            <button class="btn btn-danger task-delete">
                                 Delete
                             </button>
                         </td>
@@ -74,4 +74,15 @@ $(function () {
             }
         })
     }
+
+    // Borrar
+    $(document).on('click', '.task-delete', (e) => {
+        if(confirm('Are you sure you want to delete it?')) {
+            const element = $(this)[0].activeElement.parentElement.parentElement;
+            const id = $(element).attr('taskId');
+            $.post('task-delete.php', {id}, (response) => {
+                fetchTask();
+            });
+        }
+    });
 })
